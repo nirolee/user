@@ -8,5 +8,6 @@ type User struct {
 	//添加需要的字段
 	FirstName string
 	//密码
+	HashPassword string
 
 }
