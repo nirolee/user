@@ -3,18 +3,23 @@ package main
 import (
 	"fmt"
 	"github.com/jinzhu/gorm"
-	"github.com/micro/micro/v3/service"
-	"github.com/nirolee/user.git/domain/repository"
-	"github.com/nirolee/user.git/handler"
 	"github.com/micro/go-micro/v2"
+	"github.com/micro/go-micro/v2/logger"
+	"github.com/nirolee/user.git/domain/repository"
+	service2 "github.com/nirolee/user.git/domain/service"
+	"github.com/nirolee/user.git/proto/user"
+
+	//"github.com/nirolee/user.git/domain/repository"
+	"github.com/nirolee/user.git/handler"
+
 )
 
 func main() {
 	// Create service
-	srv := service.New(
-		service.Name("user"),
-		service.Version("latest"),
-	)
+	srv := micro.NewService(
+		micro.Name("user"),
+		micro.Version("latest"),
+		)
 	//初始化服务
 	srv.Init()
 	// Register handler
@@ -30,9 +35,9 @@ func main() {
 
 	//rp := repository.NewUserRepository(db)
 	//rp.InitTable()
-	userDataService := service2.
+	userDataService := service2.NewsUserDataService(repository.NewUserRepository(db))
 
-	pb.RegisterUserHandler(srv.Server(), new(handler.User))
+	err = user.RegisterUserHandler(srv.Server(), new(handler.User))
 
 	// Run service
 	if err := srv.Run(); err != nil {
