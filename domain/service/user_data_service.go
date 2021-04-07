@@ -16,7 +16,7 @@ type IUserDataService interface {
 }
 
 func NewsUserDataService(userRepository repository.IUserRepository) IUserDataService {
-	return &UserDataService{userRepository}
+	return &UserDataService{UserRepository: userRepository}
 }
 
 type UserDataService struct {
@@ -44,6 +44,11 @@ func (u *UserDataService)AddUser(user *model.User) (userId int64, err error){
 	}
 	user.HashPassword = string(pwdByte)
 	return u.UserRepository.CreateUser(user)
+
+}
+
+func (u *UserDataService) DeleteUser (userId int64) (err error) {
+	return u.UserRepository.DeleteUserById(userId)
 
 }
 

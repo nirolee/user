@@ -8,7 +8,7 @@ import (
 )
 
 type User struct{
-	service.UserDataService
+	UserDataService service.IUserDataService
 }
 
 //注册
